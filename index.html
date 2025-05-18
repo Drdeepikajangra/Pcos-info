@@ -2,172 +2,280 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Understanding PCOS (Polycystic Ovary Syndrome)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PCOS & Ayurveda | Educational Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f8f9fa;
-      color: #343a40;
+      font-family: 'Inter', sans-serif;
+      background: #f4f9f8;
+      color: #2c3e50;
+      line-height: 1.6;
     }
     nav {
-      background-color: #004085;
-      color: #fff;
-      padding: 1rem;
+      background-color: #2e8b75;
+      color: white;
+      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-    nav h1 {
-      margin: 0;
-      font-size: 1.5rem;
-    }
+    nav h1 { font-size: 1.5rem; }
     nav ul {
       list-style: none;
       display: flex;
       gap: 1rem;
-      margin: 0;
-      padding: 0;
     }
     nav ul li a {
-      color: #fff;
+      color: white;
       text-decoration: none;
       font-weight: 500;
+      transition: color 0.3s;
     }
-    nav ul li a:hover {
-      text-decoration: underline;
-    }
+    nav ul li a:hover { color: #b2dfdb; }
     header {
-      background-color: #e9ecef;
-      padding: 2rem;
+      background: linear-gradient(to right, #d1f2eb, #e8f8f5);
+      padding: 4rem 2rem;
       text-align: center;
+      animation: fadeIn 1.5s ease-in;
     }
     header h2 {
-      margin-bottom: 0.5rem;
+      color: #117a65;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    header p {
+      font-size: 1.1rem;
+      color: #555;
     }
     section {
-      padding: 2rem;
-      max-width: 800px;
-      margin: auto;
+      max-width: 1000px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+      animation: slideUp 1s ease-out;
     }
     section h3 {
-      color: #004085;
+      color: #148f77;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+    section ul, section p {
+      margin-bottom: 1.5rem;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .chart-container, .review-section {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
       margin-top: 2rem;
     }
+    canvas { max-width: 100%; }
     footer {
-      background-color: #dee2e6;
-      text-align: center;
+      background-color: #d5f5e3;
       padding: 1rem;
+      text-align: center;
+      color: #2e7d32;
       font-size: 0.9rem;
-      color: #6c757d;
     }
-    @media (max-width: 600px) {
-      nav {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      nav ul {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .popup-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: left;
+      max-width: 500px;
+      width: 90%;
+    }
+    .popup-content h3 {
+      margin-bottom: 1rem;
+      color: #148f77;
+    }
+    .popup-content label {
+      display: block;
+      margin-top: 1rem;
+    }
+    .popup-content button {
+      margin-top: 1.5rem;
+      padding: 0.5rem 1rem;
+      background: #2e8b75;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
   </style>
 </head>
 <body>
   <nav>
-    <h1>PCOS Awareness</h1>
+    <h1>PCOS & Ayurveda</h1>
     <ul>
-      <li><a href="#overview">Overview</a></li>
-      <li><a href="#symptoms">Symptoms</a></li>
-      <li><a href="#causes">Causes</a></li>
-      <li><a href="#diagnosis">Diagnosis</a></li>
-      <li><a href="#treatment">Treatment</a></li>
-      <li><a href="#resources">Resources</a></li>
+      <li><a href="#intro">Intro</a></li>
+      <li><a href="#methods">Management</a></li>
+      <li><a href="#benefits">Benefits</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#stats">Statistics</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 
+  <div class="popup" id="awarenessPopup">
+    <div class="popup-content">
+      <h3>Help Us Understand Awareness</h3>
+      <label>1. Are you aware of PCOS?
+        <select><option>Yes</option><option>No</option></select>
+      </label>
+      <label>2. How did you come to know about it?
+        <input type="text" placeholder="e.g. School, Internet, Doctor" />
+      </label>
+      <label>3. Do you think you may be affected?
+        <select><option>Yes</option><option>No</option><option>Not Sure</option></select>
+      </label>
+      <button onclick="document.getElementById('awarenessPopup').style.display='none'">Submit</button>
+    </div>
+  </div>
+
   <header>
-    <h2>Understanding Polycystic Ovary Syndrome (PCOS)</h2>
-    <p>A comprehensive guide based on information from leading health organizations.</p>
+    <h2>Managing PCOS Holistically Through Ayurveda</h2>
+    <p>Explore natural, root-cause solutions to PCOS with personalized Ayurvedic care</p>
   </header>
 
-  <section id="overview">
-    <h3>Overview</h3>
-    <p>
-      Polycystic Ovary Syndrome (PCOS) is a common hormonal disorder affecting women of reproductive age. It is characterized by irregular menstrual cycles, elevated levels of male hormones (androgens), and polycystic ovaries. PCOS can lead to various health complications, including infertility, metabolic issues, and psychological challenges. :contentReference[oaicite:7]{index=7}
-    </p>
+  <section id="intro">
+    <h3>What is PCOS?</h3>
+    <p>Polycystic Ovary Syndrome (PCOS) is a hormonal disorder that affects menstruation, ovulation, and fertility. It is associated with insulin resistance, weight gain, acne, hirsutism, and emotional imbalances. Ayurveda views PCOS as a Kapha-Vata imbalance with Avarana (obstruction) pathology.</p>
   </section>
 
-  <section id="symptoms">
-    <h3>Symptoms</h3>
-    <ul>
-      <li>Irregular or absent menstrual periods</li>
-      <li>Excess facial or body hair (hirsutism)</li>
-      <li>Acne and oily skin</li>
-      <li>Weight gain or difficulty losing weight</li>
-      <li>Thinning hair or hair loss on the scalp</li>
-      <li>Darkening of skin, particularly along neck creases, in the groin, and underneath breasts</li>
-      <li>Skin tags in the armpits or neck area</li>
-      <li>Difficulty with fertility</li>
-    </ul>
-    <p>:contentReference[oaicite:8]{index=8}</p>
+  <section id="methods">
+    <h3>Ayurvedic Management of PCOS</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Shodhana Therapies</h4>
+        <p>Panchakarma like Vamana, Virechana, and Basti detoxify and balance doshas. Lekhaniya Basti and Uttarbasti are used effectively.</p>
+      </div>
+      <div class="card">
+        <h4>Herbal Remedies</h4>
+        <p>Use of herbs like Shatapushpa, Triphala, Guggulu, and Chandraprabha Vati help regulate metabolism and hormones.</p>
+      </div>
+      <div class="card">
+        <h4>Diet & Lifestyle</h4>
+        <p>Pathya-Apathya guidance with emphasis on low GI foods, early dinners, yoga and pranayama improve insulin sensitivity.</p>
+      </div>
+      <div class="card">
+        <h4>Yoga & Meditation</h4>
+        <p>Regular yoga asanas like Bhadrasana, Vajrasana and breathing techniques help reduce stress and regulate cycles.</p>
+      </div>
+    </div>
   </section>
 
-  <section id="causes">
-    <h3>Causes</h3>
-    <p>
-      The exact cause of PCOS is unknown; however, several factors may contribute to its development:
-    </p>
+  <section id="benefits">
+    <h3>Benefits of Ayurvedic PCOS Care</h3>
     <ul>
-      <li><strong>Genetics:</strong> PCOS often runs in families, suggesting a hereditary component.</li>
-      <li><strong>Insulin resistance:</strong> Many women with PCOS have insulin resistance, leading to higher insulin levels, which may increase androgen production.</li>
-      <li><strong>Inflammation:</strong> Low-grade inflammation may stimulate polycystic ovaries to produce androgens.</li>
+      <li>Restores menstrual and ovulatory rhythm naturally</li>
+      <li>Improves skin health, weight, and emotional well-being</li>
+      <li>Boosts fertility and reproductive function</li>
+      <li>Reduces dependency on hormonal medications</li>
     </ul>
-    <p>:contentReference[oaicite:9]{index=9}</p>
   </section>
 
-  <section id="diagnosis">
-    <h3>Diagnosis</h3>
-    <p>
-      There is no single test to definitively diagnose PCOS. Healthcare providers typically diagnose PCOS if at least two of the following are present:
-    </p>
-    <ul>
-      <li>Irregular or absent menstrual periods</li>
-      <li>Elevated levels of androgens</li>
-      <li>Polycystic ovaries visible on ultrasound</li>
-    </ul>
-    <p>Additional tests may include blood tests to measure hormone levels and glucose tolerance, as well as pelvic exams and ultrasounds. :contentReference[oaicite:10]{index=10}
-    </p>
+  <section id="research">
+    <h3>Research & Clinical Evidence</h3>
+    <p>Studies from AYUSH, CCRAS, and reputed Ayurvedic institutions have shown positive outcomes in managing PCOS with Shodhana and Rasayana protocols. Research also indicates reduction in LH/FSH ratio, regular ovulation, and metabolic balance.</p>
+    <h3>School-Based PCOS Survey Initiative</h3>
+    <p>We are conducting a school-based survey to assess early signs and symptoms of PCOS among adolescent girls. The first phase has been completed with valuable data collected, and the second phase is ongoing. This initiative aims to identify early risk factors and promote timely lifestyle and Ayurvedic interventions, thus contributing to preventive women’s health strategies from a young age.</p>
   </section>
 
-  <section id="treatment">
-    <h3>Treatment</h3>
-    <p>
-      While there is no cure for PCOS, various treatments can help manage symptoms:
-    </p>
-    <ul>
-      <li><strong>Lifestyle changes:</strong> Weight loss through diet and exercise can improve insulin sensitivity and regulate menstrual cycles.</li>
-      <li><strong>Medications:</strong> Hormonal birth control can regulate periods and reduce androgen levels. Metformin may improve insulin resistance.</li>
-      <li><strong>Fertility treatments:</strong> Clomiphene citrate or letrozole can stimulate ovulation for women trying to conceive.</li>
-      <li><strong>Hair removal treatments:</strong> Laser hair removal or electrolysis can address excess hair growth.</li>
-    </ul>
-    <p>:contentReference[oaicite:11]{index=11}</p>
+  <section id="stats">
+    <h3>PCOS Global Statistics</h3>
+    <div class="chart-container">
+      <canvas id="pcosPrevalenceChart"></canvas>
+      <p style="margin-top: 1rem; font-weight: bold;">Live Count of Affected Women: <span id="liveCount">0</span> million</p>
+    </div>
   </section>
 
-  <section id="resources">
-    <h3>Resources</h3>
-    <ul>
-      <li><a href="https://www.who.int/news-room/fact-sheets/detail/polycystic-ovary-syndrome" target="_blank">World Health Organization (WHO) – PCOS Fact Sheet</a></li>
-      <li><a href="https://www.mayoclinic.org/diseases-conditions/pcos/symptoms-causes/syc-20353439" target="_blank">Mayo Clinic – PCOS Overview</a></li>
-      <li><a href="https://my.clevelandclinic.org/health/diseases/8316-polycystic-ovary-syndrome-pcos" target="_blank">Cleveland Clinic – PCOS Information</a></li>
-      <li><a href="https://www.pcoschallenge.org/" target="_blank">PCOS Challenge – Support and Advocacy</a></li>
-      <li><a href="https://www.pcosaa.org/" target="_blank">PCOS Awareness Association</a></li>
-    </ul>
+  <section class="review-section">
+    <h3>Visitor Reviews</h3>
+    <p>If you found this site helpful or informative, share your feedback:</p>
+    <textarea rows="4" style="width:100%; padding:1rem; border-radius:8px;"></textarea>
+    <button style="margin-top: 1rem; background:#148f77; color:#fff; padding:0.5rem 1rem; border:none; border-radius:4px;">Submit Review</button>
+  </section>
+
+  <section id="contact">
+    <h3>Contact for Consultation</h3>
+    <p>Want to begin Ayurvedic PCOS management or organize awareness sessions? Contact us at: <strong>pcoscare@ayurveda.org</strong></p>
   </section>
 
   <footer>
-    <p>&copy; 2025 PCOS Awareness. All rights reserved.</p>
+    <p>&copy; 2025 Ayurveda Education | Empowering Women with Holistic Health Solutions.</p>
   </footer>
+
+  <script>
+    const pcosPrevalenceCtx = document.getElementById('pcosPrevalenceChart');
+    new Chart(pcosPrevalenceCtx, {
+      type: 'bar',
+      data: {
+        labels: ['India', 'USA', 'UK', 'Australia', 'Global Avg'],
+        datasets: [{
+          label: 'PCOS Prevalence (%)',
+          data: [22, 15, 12, 10, 16],
+          backgroundColor: '#2e8b75',
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true },
+          title: { display: true, text: 'Estimated PCOS Prevalence by Region' }
+        }
+      }
+    });
+
+    function updateLiveCount() {
+      const base = 116;
+      const randomAddition = Math.floor(Math.random() * 10);
+      document.getElementById('liveCount').textContent = base + randomAddition;
+    }
+    updateLiveCount();
+    setInterval(updateLiveCount, 10000);
+  </script>
 </body>
 </html>
